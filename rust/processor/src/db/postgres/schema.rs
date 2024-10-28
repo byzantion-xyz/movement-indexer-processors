@@ -1,6 +1,14 @@
 // @generated automatically by Diesel CLI.
 
 diesel::table! {
+    accounts (account_address) {
+        #[max_length = 66]
+        account_address -> Varchar,
+        inserted_at -> Timestamp,
+    }
+}
+
+diesel::table! {
     account_transactions (account_address, transaction_version) {
         transaction_version -> Int8,
         #[max_length = 66]

@@ -28,6 +28,10 @@ use crate::{
         token_v2_processor::TokenV2Processor,
         transaction_metadata_processor::TransactionMetadataProcessor,
         user_transaction_processor::UserTransactionProcessor,
+        mercato_account_processor::MercatoAccountProcessor, 
+        mercato_processor::MercatoProcessor, 
+        mercato_token_processor::MercatoTokenProcessor, 
+        mercato_token_v2_processor::MercatoTokenV2Processor, 
         DefaultProcessingResult, Processor, ProcessorConfig, ProcessorTrait,
     },
     schema::ledger_infos,
@@ -975,5 +979,21 @@ pub fn build_processor(
                 gap_detector_sender.expect("Parquet processor requires a gap detector sender"),
             ))
         },
+        ProcessorConfig::MercatoProcessor => {
+            Processor::from(MercatoProcessor::new(db_pool, per_table_chunk_sizes, deprecated_tables))
+        },
+        ProcessorConfig::MercatoTokenProcessor(config) => Processor::from(MercatoTokenProcessor::new(
+            db_pool,
+            config.clone(),
+            per_table_chunk_sizes,
+        )),
+        ProcessorConfig::MercatoTokenV2Processor(config) => Processor::from(MercatoTokenV2Processor::new(
+            db_pool,
+            config.clone(),
+            per_table_chunk_sizes,
+        )),
+        ProcessorConfig::MercatoAccountProcessor => Processor::from(
+            MercatoAccountProcessor::new(db_pool, per_table_chunk_sizes),
+        ),
     }
 }

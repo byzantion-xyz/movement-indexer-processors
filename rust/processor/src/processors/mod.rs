@@ -19,6 +19,11 @@ pub mod token_processor;
 pub mod token_v2_processor;
 pub mod transaction_metadata_processor;
 pub mod user_transaction_processor;
+pub mod mercato_token_processor;
+pub mod mercato_token_v2_processor;
+pub mod mercato_processor;
+pub mod mercato_account_processor;
+
 
 use self::{
     account_transactions_processor::AccountTransactionsProcessor,
@@ -35,6 +40,10 @@ use self::{
     token_v2_processor::{TokenV2Processor, TokenV2ProcessorConfig},
     transaction_metadata_processor::TransactionMetadataProcessor,
     user_transaction_processor::UserTransactionProcessor,
+    mercato_processor::MercatoProcessor,
+    mercato_token_processor::{MercatoTokenProcessor, MercatoTokenProcessorConfig},
+    mercato_token_v2_processor::{MercatoTokenV2Processor, MercatoTokenV2ProcessorConfig},
+    mercato_account_processor::MercatoAccountProcessor,
 };
 use crate::{
     db::common::models::processor_status::ProcessorStatus,
@@ -200,6 +209,10 @@ pub enum ProcessorConfig {
     UserTransactionProcessor,
     ParquetDefaultProcessor(ParquetDefaultProcessorConfig),
     ParquetFungibleAssetProcessor(ParquetFungibleAssetProcessorConfig),
+    MercatoProcessor,
+    MercatoTokenProcessor(MercatoTokenProcessorConfig),
+    MercatoTokenV2Processor(MercatoTokenV2ProcessorConfig),
+    MercatoAccountProcessor
 }
 
 impl ProcessorConfig {
@@ -252,6 +265,10 @@ pub enum Processor {
     UserTransactionProcessor,
     ParquetDefaultProcessor,
     ParquetFungibleAssetProcessor,
+    MercatoProcessor,
+    MercatoTokenProcessor,
+    MercatoTokenV2Processor,
+    MercatoAccountProcessor,
 }
 
 #[cfg(test)]
